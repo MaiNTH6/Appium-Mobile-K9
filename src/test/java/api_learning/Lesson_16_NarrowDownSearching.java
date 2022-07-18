@@ -41,7 +41,7 @@ public class Lesson_16_NarrowDownSearching {
             int xEndPoint = 50 * screenWidth /100;
 
             int yStartPoint = 0;
-            int yEndPoint = 10 * screenHeight /100;
+            int yEndPoint = 20 * screenHeight /100;
 
             // Convert coordinates --> Point Option
             PointOption<ElementOption> startPoint = new PointOption<ElementOption>().withCoordinates(xStartPoint, yStartPoint);
@@ -75,8 +75,8 @@ public class Lesson_16_NarrowDownSearching {
             }
 
             //Vertification
-            if(notificationContents.keySet().isEmpty())
-                throw new RuntimeException("no notification");
+//            if(notificationContents.keySet().isEmpty())
+//                throw new RuntimeException("no notification");
 
             for (String title : notificationContents.keySet()) {
                 System.out.println("Title: " + title);
