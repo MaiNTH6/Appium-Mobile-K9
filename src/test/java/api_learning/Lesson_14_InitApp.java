@@ -7,7 +7,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.URL;
 
-public class Lesson_14 {
+public class Lesson_14_InitApp {
 
     public static void main(String[] args) {
 
@@ -37,7 +37,5 @@ public class Lesson_14 {
             appiumDriver.quit();
 
     }
-
-
 
 }
