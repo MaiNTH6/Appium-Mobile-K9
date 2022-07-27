@@ -25,7 +25,7 @@ public class LoginWithComponents {
             loginScreen.bottomNavComp().clickOnLoginIcon();
             loginScreen.loginFormComp().inputUsername("teo@sth.com");
             loginScreen.loginFormComp().inputPassword("12345678");
-            loginScreen.loginFormComp().clickOnLoginbtn();
+            loginScreen.loginFormComp().clickOnLoginBtn();
 
 
         } catch (Exception e) {
