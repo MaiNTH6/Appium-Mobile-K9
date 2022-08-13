@@ -8,9 +8,6 @@ import org.testng.annotations.Test;
 import plaform.Platform;
 import test_flows.authentication.LoginFlow;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class LoginTestWithDataProvider {
     @Test(dataProvider = "loginCredData")
     public static void testLogin(LoginCred loginCred) {

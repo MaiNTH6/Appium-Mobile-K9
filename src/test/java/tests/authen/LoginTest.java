@@ -8,9 +8,7 @@ import plaform.Platform;
 import test_flows.authentication.LoginFlow;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class LoginTest {
     @Test
