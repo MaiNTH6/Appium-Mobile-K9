@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 public class DriverFactory implements MobileCapabilityTypeEx {
+
     private AppiumDriver<MobileElement> appiumDriver;
 
     public static AppiumDriver<MobileElement> getDriver(Platform platform){
@@ -56,8 +57,8 @@ public class DriverFactory implements MobileCapabilityTypeEx {
             desiredCapabilities.setCapability(APP_PACKAGE, "com.wdiodemoapp");
             desiredCapabilities.setCapability(APP_ACTIVITY, "com.wdiodemoapp.MainActivity");
             desiredCapabilities.setCapability(SYSTEMPORT, systemPort);
-
             URL appiumServer = null;
+            String targetServer = "http://192.168.1.100:4444/wd/hub";
             try {
                 appiumServer = new URL("http://localhost:4723/wd/hub");
             } catch (Exception e) {
@@ -65,7 +66,7 @@ public class DriverFactory implements MobileCapabilityTypeEx {
             }
 
             if (appiumServer == null)
-                throw new RuntimeException("Can't contruct the appium server url @http://localhost:4723/wd/hub");
+                throw new RuntimeException("Can't connect to selenium grid");
 
             switch (platform) {
                 case ANDROID:

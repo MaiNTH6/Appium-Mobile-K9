@@ -5,8 +5,7 @@
         <parameter name="udid" value="emulator-5554"/>
         <parameter name="systemPort" value="8300"/>
         <classes>
-
-            <class name="tests.paralled.Login" />
+            <class name="tests.form.FormTest"/>
         </classes>
     </test>
     <test name="Authentication02" >
