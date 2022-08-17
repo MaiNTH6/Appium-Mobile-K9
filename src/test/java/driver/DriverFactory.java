@@ -7,81 +7,92 @@ import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import plaform.Platform;
 
+
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
+
+import static io.appium.java_client.remote.IOSMobileCapabilityType.BUNDLE_ID;
+import static io.appium.java_client.remote.IOSMobileCapabilityType.WDA_LOCAL_PORT;
 
 public class DriverFactory implements MobileCapabilityTypeEx {
 
     private AppiumDriver<MobileElement> appiumDriver;
 
-    public static AppiumDriver<MobileElement> getDriver(Platform platform){
+    public static AppiumDriver<MobileElement> getDriver(Platform platform) {
         AppiumDriver<MobileElement> appiumDriver = null;
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-        desiredCapabilities.setCapability(PLATFORM_NAME, "android");
+        desiredCapabilities.setCapability(PLATFORM_NAME, "Android");
         desiredCapabilities.setCapability(AUTOMATION_NAME, "uiautomator2");
-        desiredCapabilities.setCapability(UDID, "emulator-5554");
+        desiredCapabilities.setCapability(UDID, "3300d3672cca62b9");
         desiredCapabilities.setCapability(APP_PACKAGE, "com.wdiodemoapp");
         desiredCapabilities.setCapability(APP_ACTIVITY, "com.wdiodemoapp.MainActivity");
-
         URL appiumServer = null;
+
         try {
             appiumServer = new URL("http://localhost:4723/wd/hub");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if(appiumServer == null)
-            throw new RuntimeException("Can't contruct the appium server url @http://localhost:4723/wd/hub");
+        if (appiumServer == null)
+            throw new RuntimeException("Can't construct the appium server url @http://localhost:4723/wd/hub");
 
-        switch (platform){
-            case ANDROID:
-                appiumDriver = new AndroidDriver<MobileElement>(desiredCapabilities);
+        switch (platform) {
+            case android:
+                appiumDriver = new AndroidDriver<>(appiumServer, desiredCapabilities);
                 break;
-            case IOS:
-                appiumDriver = new IOSDriver<MobileElement>(desiredCapabilities);
-
+            case ios:
+                appiumDriver = new IOSDriver<>(appiumServer, desiredCapabilities);
+                break;
         }
-      // Implicit wait | Interval time 500ms
-            appiumDriver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 
-        return  appiumDriver;
+        // Implicit wait | Interval time 500ms
+        appiumDriver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 
+        return appiumDriver;
     }
 
-    public AppiumDriver<MobileElement> getDriver(Platform platform, String udid, String systemPort){
+    public AppiumDriver<MobileElement> getDriver(Platform platform, String udid, String systemPort, String platformVersion) {
         if(appiumDriver == null) {
-            DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-            desiredCapabilities.setCapability(PLATFORM_NAME, "android");
-            desiredCapabilities.setCapability(AUTOMATION_NAME, "uiautomator2");
-            desiredCapabilities.setCapability(UDID, udid);
-            desiredCapabilities.setCapability(APP_PACKAGE, "com.wdiodemoapp");
-            desiredCapabilities.setCapability(APP_ACTIVITY, "com.wdiodemoapp.MainActivity");
-            desiredCapabilities.setCapability(SYSTEMPORT, systemPort);
             URL appiumServer = null;
-            String targetServer = "http://192.168.1.100:4444/wd/hub";
+            String targetServer = "http://192.168.1.232:4444/wd/hub";
             try {
-                appiumServer = new URL("http://localhost:4723/wd/hub");
+                appiumServer = new URL(targetServer);
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
             if (appiumServer == null)
-                throw new RuntimeException("Can't connect to selenium grid");
+                throw new RuntimeException("Can't connect to selenium grid.");
+
+            // Desired Capabilities
+            DesiredCapabilities desiredCaps = new DesiredCapabilities();
+            desiredCaps.setCapability(PLATFORM_NAME, platform);
 
             switch (platform) {
-                case ANDROID:
-                    appiumDriver = new AndroidDriver<MobileElement>(desiredCapabilities);
+                case android:
+                    desiredCaps.setCapability(AUTOMATION_NAME, "uiautomator2");
+                    desiredCaps.setCapability(UDID, udid);
+                    desiredCaps.setCapability(APP_PACKAGE, "com.wdiodemoapp");
+                    desiredCaps.setCapability(APP_ACTIVITY, "com.wdiodemoapp.MainActivity");
+                    desiredCaps.setCapability(SYSTEMPORT, systemPort);
+                    appiumDriver = new AndroidDriver<>(appiumServer, desiredCaps);
                     break;
-                case IOS:
-                    appiumDriver = new IOSDriver<MobileElement>(desiredCapabilities);
+                case ios:
+                    desiredCaps.setCapability(AUTOMATION_NAME, "XCUITest");
+                    desiredCaps.setCapability(DEVICE_NAME, udid);
+                    desiredCaps.setCapability(PLATFORM_VERSION, platformVersion);
+                    desiredCaps.setCapability(BUNDLE_ID, "org.wdioNativeDemoApp");
+                    desiredCaps.setCapability(WDA_LOCAL_PORT, systemPort);
+                    appiumDriver = new IOSDriver<>(appiumServer, desiredCaps);
+                    break;
             }
 
             // Implicit wait | Interval time 500ms
             appiumDriver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
         }
 
-        return  appiumDriver;
-
+        return appiumDriver;
     }
 
     public void quitAppiumDriver(){
@@ -89,6 +100,5 @@ public class DriverFactory implements MobileCapabilityTypeEx {
             appiumDriver.quit();
             appiumDriver = null;
         }
-
     }
 }
