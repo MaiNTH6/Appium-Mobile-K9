@@ -27,7 +27,7 @@ public class Login extends BaseTest {
     @DataProvider
 
     public LoginCred[] loginCredData(){
-        String filePath = "/src/test/java/test_data/authen/LoginCreds.json";
+        String filePath = "/src/main/java/test_data/authen/LoginCreds.json";
         return DataObjiectBuilder.buildDataObjiect(filePath, LoginCred[].class);
     }
 }
