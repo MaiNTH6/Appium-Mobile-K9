@@ -11,6 +11,7 @@ import plaform.Platform;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
+
 import static io.appium.java_client.remote.IOSMobileCapabilityType.BUNDLE_ID;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.WDA_LOCAL_PORT;
 
@@ -53,9 +54,26 @@ public class DriverFactory implements MobileCapabilityTypeEx {
     }
 
     public AppiumDriver<MobileElement> getDriver(Platform platform, String udid, String systemPort, String platformVersion) {
+        String remoteInfoViaEnvVar = System.getenv("env");
+        String remoteInfoViaCommandVar = System.getProperty("env");
+        String isRemote = remoteInfoViaEnvVar == null ? remoteInfoViaCommandVar : remoteInfoViaEnvVar;
+
+        if(isRemote == null){
+            throw new IllegalArgumentException("Please provide env variable [env]!");
+        }
+
+        String targetServer = "https://localhost:4723/wd/hub";
+        if(isRemote.equals("true")){
+            String hubIPAdd = System.getenv("hub");
+            if(hubIPAdd == null) hubIPAdd = System.getProperty("hub");
+            if(hubIPAdd == null){
+                throw new IllegalArgumentException("Please provide hub ip address via env variable [hub]!");
+            }
+            targetServer = hubIPAdd + ":4444/wd/hub";
+        }
+
         if(appiumDriver == null) {
             URL appiumServer = null;
-            String targetServer = "http://192.168.1.232:4444/wd/hub";
             try {
                 appiumServer = new URL(targetServer);
             } catch (Exception e) {

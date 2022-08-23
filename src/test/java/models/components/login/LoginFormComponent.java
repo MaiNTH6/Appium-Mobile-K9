@@ -41,6 +41,10 @@ public class LoginFormComponent {
     @iOSXCUITFindBy(iOSNsPredicate = "label == \"Please enter at least 8 characters\"")
     private MobileElement incorrectPasswordTxtElem;
 
+    @AndroidFindBy(xpath = "//*[contains(@text, 'Success')]")
+    @iOSXCUITFindBy(iOSNsPredicate = "label == \"Success\"")
+    private MobileElement correctEmailPasswordTxtSel;
+
     public String getInvalidEmailStr(){
         return incorrectEmailTxtElem.getText().trim();
     }
@@ -63,4 +67,7 @@ public class LoginFormComponent {
         appiumDriver.findElement(loginBtnSel).click();
     }
 
+    public String getValidEmailStr() {
+        return correctEmailPasswordTxtSel.getText();
+    }
 }

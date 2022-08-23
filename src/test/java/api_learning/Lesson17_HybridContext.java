@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class Lesson17_HybridContext {
     public static void main(String[] args) {
-        AppiumDriver<MobileElement> appiumDriver = DriverFactory.getDriver(Platform.ANDROID);
+        AppiumDriver<MobileElement> appiumDriver = DriverFactory.getDriver(Platform.android);
         try{
             By webviewNavBtnSel = MobileBy.AccessibilityId("Webview");
             MobileElement webviewNavBtnElem = appiumDriver.findElement(webviewNavBtnSel);

@@ -10,7 +10,7 @@ import plaform.Platform;
 
 public class Lesson_15_LoginFormTest {
     public static void main(String[] args) {
-        AppiumDriver<MobileElement> appiumDriver = DriverFactory.getDriver(Platform.ANDROID);
+        AppiumDriver<MobileElement> appiumDriver = DriverFactory.getDriver(Platform.android);
 
         try {
             // Navigate to Login Screen

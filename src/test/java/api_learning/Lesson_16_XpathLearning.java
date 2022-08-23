@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Lesson_16_XpathLearning {
     public static void main(String[] args) {
-        AppiumDriver<MobileElement> appiumDriver = DriverFactory.getDriver(Platform.ANDROID);
+        AppiumDriver<MobileElement> appiumDriver = DriverFactory.getDriver(Platform.android);
 
     /* Làm sao để make sure là cái element không xuất hiện trên màn hình
     * Cách 1: dùng try catch
