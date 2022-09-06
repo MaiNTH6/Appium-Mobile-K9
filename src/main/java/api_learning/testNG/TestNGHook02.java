@@ -1,4 +1,4 @@
-package tests.testNG;
+package api_learning.testNG;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;

@@ -7,11 +7,10 @@ import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import plaform.Platform;
 
-
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
-
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.SYSTEM_PORT;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.BUNDLE_ID;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.WDA_LOCAL_PORT;
 
@@ -54,8 +53,8 @@ public class DriverFactory implements MobileCapabilityTypeEx {
     }
 
     public AppiumDriver<MobileElement> getDriver(Platform platform, String udid, String systemPort, String platformVersion) {
-        String remoteInfoViaEnvVar = System.getenv("env");
-        String remoteInfoViaCommandVar = System.getProperty("env");
+        String remoteInfoViaEnvVar = System.getenv("remote");
+        String remoteInfoViaCommandVar = System.getProperty("remote");
         String isRemote = remoteInfoViaEnvVar == null ? remoteInfoViaCommandVar : remoteInfoViaEnvVar;
 
         if(isRemote == null){
@@ -93,7 +92,7 @@ public class DriverFactory implements MobileCapabilityTypeEx {
                     desiredCaps.setCapability(UDID, udid);
                     desiredCaps.setCapability(APP_PACKAGE, "com.wdiodemoapp");
                     desiredCaps.setCapability(APP_ACTIVITY, "com.wdiodemoapp.MainActivity");
-                    desiredCaps.setCapability(SYSTEMPORT, systemPort);
+                    desiredCaps.setCapability(SYSTEM_PORT, systemPort);
                     appiumDriver = new AndroidDriver<>(appiumServer, desiredCaps);
                     break;
                 case ios:

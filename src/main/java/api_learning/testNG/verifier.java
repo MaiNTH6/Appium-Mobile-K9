@@ -1,4 +1,4 @@
-package tests.testNG;
+package api_learning.testNG;
 
 public class verifier {
     public static void verifyEqual(String actualResult, String expectedResult){

@@ -1,4 +1,4 @@
-package tests.testNG;
+package api_learning.testNG;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;

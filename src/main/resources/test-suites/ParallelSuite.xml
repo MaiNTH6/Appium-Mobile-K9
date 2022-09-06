@@ -14,7 +14,7 @@
         <parameter name="udid" value="R58N52L23DY"/>
         <parameter name="systemPort" value="8400"/>
         <classes>
-            <class name="tests.paralled.Login" />
+            <class name="api_learning.paralled.Login" />
         </classes>
     </test>
     <test name="Authentication03" >

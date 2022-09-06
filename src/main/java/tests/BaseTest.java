@@ -7,13 +7,9 @@ import io.qameta.allure.Allure;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
+import org.testng.annotations.*;
 import plaform.Platform;
-
 
 import java.io.File;
 import java.io.InputStream;
@@ -27,27 +23,31 @@ public class BaseTest {
     private static final List<DriverFactory> driverThreadPool = Collections.synchronizedList(new ArrayList<>());
     private static ThreadLocal<DriverFactory> driverThread;
 
-    private String udid;
-    private String systemPort;
-    private String platformName;
-    private String platformVersion;
+    private  String udid;
+    private  String systemPort;
+    private  String platformName;
+    private  String platformVersion;
 
     protected AppiumDriver<MobileElement> getDriver(){
         return driverThread.get().getDriver(Platform.valueOf(platformName), udid, systemPort, platformVersion);
     }
 
     @BeforeTest
-    @Parameters({"udid", "systemPort", "platformName", "platformVersion"})
     public void initAppiumSession(String udid, String systemPort, String platformName, @Optional("platformVersion") String platformVersion){
-        this.udid = udid;
-        this.systemPort = systemPort;
-        this.platformName = platformName;
-        this.platformVersion = platformVersion;
         driverThread = ThreadLocal.withInitial(() -> {
             DriverFactory driverThread = new DriverFactory();
             driverThreadPool.add(driverThread);
             return driverThread;
         });
+    }
+
+    @BeforeClass
+    @Parameters({"udid", "systemPort", "platformName", "platformVersion"})
+    public void getTestParams(String udid, String systemPort, String platformName, @Optional("platformVersion") String platformVersion){
+        this.udid = udid;
+        this.systemPort = systemPort;
+        this.platformName = platformName;
+        this.platformVersion = platformVersion;
     }
 
     @AfterTest(alwaysRun = true)
@@ -81,6 +81,7 @@ public class BaseTest {
                 FileUtils.copyFile(screenshotBase64Data, new File(fileLocation));
                 Path screenshotContentPath = Paths.get(fileLocation);
                 InputStream inputStream = Files.newInputStream(screenshotContentPath);
+
                 Allure.addAttachment(testMethodName, inputStream);
             } catch (Exception e){
                 e.printStackTrace();

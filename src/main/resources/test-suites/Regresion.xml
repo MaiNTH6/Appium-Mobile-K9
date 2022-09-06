@@ -3,7 +3,7 @@
 <suite name="Regression" verbose="1" >
     <test name="Authentication" >
         <classes>
-            <class name="tests.authen.LoginTestWithDataBuilder" />
+            <class name="api_learning.authen_exploring.LoginTestWithDataBuilder" />
         </classes>
     </test>
 </suite>

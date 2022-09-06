@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.*;
 
-
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.SYSTEM_PORT;
 
 public class Main implements MobileCapabilityTypeEx {
 
@@ -36,9 +36,7 @@ public class Main implements MobileCapabilityTypeEx {
         }
 
         // Get platform
-//        String platformName = System.getProperty("platform");
-        String platformName = System.getenv("platform");
-
+        String platformName = System.getProperty("platform");
         if(platformName == null){
             throw new IllegalArgumentException("[ERR] Please provide platform via -Dplatform");
         }
@@ -50,7 +48,7 @@ public class Main implements MobileCapabilityTypeEx {
 
         // Devices under test
         List<String> iPhoneDeviceList = Arrays.asList("iPhone 12", "iPhone 13");
-        List<String> androidDeviceList = Arrays.asList("G8S1LV05133401MM", "emulator-5554");
+        List<String> androidDeviceList = Arrays.asList("emulator-5554");
         List<String> deviceList = platformName.equalsIgnoreCase("ios") ? iPhoneDeviceList : androidDeviceList;
 
 
@@ -66,6 +64,7 @@ public class Main implements MobileCapabilityTypeEx {
         // else startSubList + 3
 
 
+        // Assign test classes into devices
         final int testNumEachDevice = testClasses.size() / deviceList.size();
         Map<String, List<Class<?>>> desiredCaps = new HashMap<>();
 
@@ -96,7 +95,7 @@ public class Main implements MobileCapabilityTypeEx {
             test.addParameter(UDID, deviceName);
             test.addParameter(PLATFORM_NAME, platformName);
             test.addParameter(PLATFORM_VERSION, "15.0");
-            test.addParameter(SYSTEMPORT, String.valueOf(new SecureRandom().nextInt(1000) + 8300));
+            test.addParameter(SYSTEM_PORT, String.valueOf(new SecureRandom().nextInt(1000) + 8300));
             allTests.add(test);
         }
 
@@ -106,12 +105,12 @@ public class Main implements MobileCapabilityTypeEx {
 
         System.out.println(suite.toXml());
 
-//        // Add Testsuite into suite list
-//        List<XmlSuite> suites = new ArrayList<>();
-//        suites.add(suite);
-//
-//        // Invoke run method
-//        testNG.setXmlSuites(suites);
-//        testNG.run();
+        // Add Testsuite into suite list
+        List<XmlSuite> suites = new ArrayList<>();
+        suites.add(suite);
+
+        // Invoke run method
+        testNG.setXmlSuites(suites);
+        testNG.run();
     }
 }
